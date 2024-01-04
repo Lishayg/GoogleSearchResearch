@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block title %}Global Search Insights | Login{% endblock %}
+{% block mainblock %}
+<style>
+
+input[type=text], input[type=password] {
+  width: 50%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+
+img.avatar {
+    margin-bottom: 25px;
+    width: 20%;
+    border-radius: 50%;
+}
+
+</style>
+    <div class="content-section">
+    <form method="POST" class="form-group">
+        <legend class="border-bottom-login mb-4">Log In</legend>
+        <img src="{% static 'images/user.png'%}" class="avatar">
+        {% csrf_token %}
+        {{form|crispy}}
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Login</button>
+        </div>
+    </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Don't have an account yet? <a href="{% url 'user_registration' %}">Sign Up Now</a>
+            </small>
+        </div>
+
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Forgot your password? <a href="/reset_password">Click here to reset it.</a>
+            </small>
+        </div>
+
+    </div>
+
+{% endblock %}
+

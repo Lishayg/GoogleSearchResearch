@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %}Global Search Insights | FAQ{% endblock %}
+{% block mainblock %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <h1 style="float: none;display: table-cell;white-space: nowrap;">Frequently asked questions</h1><br>
+
+<style>
+    .collapsible {
+      background-color: #77A;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .active_answer, .collapsible:hover {
+      background-color: #a6a6ee;
+        font-size: 17px;
+    }
+
+    .collapsible:after {
+      content: '\002B';
+      color: white;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+    }
+
+    .active_answer:after {
+      content: "\2212";
+    }
+
+    .content {
+      padding: 0 18px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      background-color: #f1f1f1;
+    }
+
+</style>
+</head>
+<body>
+<div class="questionsAndAnswers">
+    <h3><b>About the project</b></h3>
+    {% for record in about_questions %}
+        <button class="collapsible">{{ record.question }}</button>
+        <div class="content">
+            <p>{{ record.answer }}</p>
+        </div>
+    {% endfor %}
+    <br>
+    <h3><b>Technicalities</b></h3>
+    {% for record in technicalities_questions %}
+        <button class="collapsible">{{ record.question }}</button>
+        <div class="content">
+            <p>{{ record.answer }}</p>
+        </div>
+    {% endfor %}
+    <br>
+    <h3><b>Using the site</b></h3>
+    {% for record in using_questions %}
+        <button class="collapsible">{{ record.question }}</button>
+        <div class="content">
+            <p>{{ record.answer }}</p>
+        </div>
+    {% endfor %}
+    <br>
+    <h3><b>Suggestions and problems (who to contact, how to suggest ideas)</b></h3>
+    {% for record in suggest_questions %}
+        <button class="collapsible">{{ record.question }}</button>
+        <div class="content">
+            <p>{{ record.answer }}</p>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active_answer");
+    var content = this.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Global Search Insights | Profile Information{% endblock %}
+{% block mainblock %}
+    <style>.info-style {
+        margin: 0px 0px 10px 0px;
+        font-size: 18px;
+        color: black;
+    }
+
+    .image-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .image-container {
+        width: 380px;
+        margin-left: 120px;
+        margin-bottom: 100px;
+    }
+
+    .col-25 {
+      float: left;
+      width: 25%;
+      margin-top: 6px;
+    }
+
+    .col-75 {
+    float: right;
+    width: 75%;
+    margin-top: 6px;
+    padding:0 5px 5px 10px;   {#top, right, bottom, left#}
+    }
+
+    input[type=submit] {
+        background-color: #000ac8;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: left;
+
+    }
+
+    input[type=submit]:hover {
+      background-color: #042078;
+    }
+
+
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+    </style>
+
+    <h1 style="float: none;display: table-cell;white-space: nowrap; font-weight: normal">Profile information <strong>{{ user.username }}</strong>:</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+    <div class="row">
+        <div class="col-25">
+            <li><img src="{% static user.profile_avatar %}" height="250" width="250"></li>
+            <br>
+            <a href="{% url 'edit_picture' %}" style="padding-left: 60px">Edit Profile Picture</a>
+        </div>
+        {% if request.user.usertype != 'guest' %}
+
+            <div class="col-75">
+                <br>
+                <p class="info-style"><b><b>Full Name:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ form.instance.first_name }} {{ form.instance.last_name }}</p>
+                <p class="info-style"><b><b>Email Address:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ form.instance.email }}</p>
+                <p class="info-style"><b><b>Age:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ user.age }}</p>
+                <p class="info-style"><b><b>Country:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ countryName }}</p>
+                <p class="info-style"><b><b>Language:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ langName }}</p>
+                <p class="info-style"><b><b>Academic Level:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ user.academiclevel }}</p>
+                <p class="info-style"><b><b>Science Education Level:&nbsp;&nbsp;&nbsp;&nbsp;</b></b>{{ user.scienceeducationlevel }}</p>
+            </div>
+        {% endif %}
+    </div>
+    {% if request.user.usertype != 'guest' %}
+        <div class="media-body">
+            {% if user.username == form.instance.username %}
+                <br><br>
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Edit Profile Information</legend>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.first_name|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.last_name|as_crispy_field }}
+                        </div>
+                    </div>
+                    {{ form.email|as_crispy_field }}
+
+                    <a href="{% url 'password_change' %}">Change password?</a>
+                </fieldset>
+            <div class="form-group">
+                <input type="submit" value="Update"/>
+            </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <br><br><br><br>
+    <legend class="border-bottom mb-4">{{ user.username }}'s Medals:</legend>
+    {% if categories%}
+        <p>Click the medal to see training explanations</p><br>
+        <div class="image-row">
+        {% for category in categories %}
+            <div class="image-container">
+                <a href="{% url 'trainingExplanations' category.id|add:category.id|add:-1 %}">
+                    <img src="{% static 'images/categories medals/'|add:category.name|add:' Medal.png' %}"></a>
+            </div>
+        {% endfor %}
+        </div>
+
+        {% if categories_names|length < 4 %}
+            <p class="info-style">Want to earn more medals?</p>
+            <p class="info-style">Here are other available categories for training:</p><br>
+            {% if 'Basic Science' not in categories_names %}
+                <div class="basic_cat" ><a href="{% url 'training' 1 %}">Basic Science</a></div>
+            {% endif %}
+            {% if 'Science in Society' not in categories_names %}
+                <div class="society_cat"><a href="{% url 'training' 3 %}">Science in Society</a></div>
+            {% endif %}
+            {% if 'Science in the News' not in categories_names %}
+                <div class="news_cat"><a href="{% url 'training' 5 %}">Science in the News</a></div>
+            {% endif %}
+            {% if 'Science Related Conspiracies' not in categories_names %}
+                <div class="conspiracy_cat"><a href="{% url 'training' 7 %}">Science Related Conspiracies</a></div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <p class="info-style">No Earned Medals :(</p>
+        <p class="info-style">To earn medals go train!</p>
+        <p class="info-style">Here are the available categories for training:</p><br>
+        <div class="basic_cat" ><a href="{% url 'training' 1%}">Basic Science</a></div>
+        <div class="society_cat"><a href="{% url 'training' 3%}">Science in Society</a></div>
+        <div class="news_cat"><a href="{% url 'training' 5%}">Science in the News</a></div>
+        <div class="conspiracy_cat"><a href="{% url 'training' 7%}">Science Related Conspiracies</a></div>
+    {% endif %}
+
+
+    </form>
+{% endblock%}

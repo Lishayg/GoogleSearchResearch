@@ -1,0 +1,15 @@
+{% autoescape off %}
+    Hi {{ user }},
+    Congratulations on successfully registering to our website! We are thrilled to have you as a new member of our community.
+
+    To complete the registration process and activate your account, please click on the following link:
+
+    http://{{ domain }}{% url 'activate_registration' uidb64=uid token=token%}
+
+    By clicking the link, you will gain access to our platform where you can actively participate in our research. Your valuable insights will contribute to improving search experiences globally.
+
+    If you encounter any difficulties during the confirmation process or have any questions, please don't hesitate to reach out to us.
+
+    Best regards,
+    Global Search Insights team.
+{% endautoescape %}

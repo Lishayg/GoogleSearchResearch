@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Global Search Insights | Suggest{% endblock %}
+
+{% block mainblock %}
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        input[type=submit] {
+            background-color: #000ac8;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: left;
+            margin: 10px;
+        }
+
+        input[type=submit]:hover {
+          background-color: #042078;
+        }
+
+    </style>
+<h1 style="float: none;display: table-cell;flex-wrap: nowrap;">Suggest terms or categories:</h1>
+<h4> In this page you can suggest new terms and categories to add to the research.<br>
+They will be sent to the project managers who will decide whether to include them or not. </h4>
+<form method="POST" action="suggestion_submitted">
+ {% csrf_token %}
+    <p style="margin-left: 0">Please choose if you want to suggest new term or category:</p>
+    <input type="radio" id="suggest_type1" name="suggest_type" value="Category">
+    <label for="suggest_type1">Category</label><br>
+    <input type="radio" id="suggest_type2" name="suggest_type" value="Term">
+    <label for="suggest_type2">Term</label><br>
+    <label for="suggest">Please write your suggestion:</label><br>
+    <input type="text" id="suggest" name="suggest"><br>
+   <input type="submit" value="Submit" style="margin-left: 0"/>
+    </form><br><br><br>
+     <h3>Want to support other user suggestions?</h3>
+    {% if suggested_terms %}
+        <h4>Suggested Terms:</h4>
+        <ul>
+            {% for term in suggested_terms %}
+                <li>
+                  {{ term.name }} ({{ term.numberofusers }} users supported)
+                  <form method="POST" action="{% url 'support_suggestion' term.pk 'Term' %}">
+                      {% csrf_token %}
+                      <button type="submit">Support</button>
+                  </form>
+                </li>
+          {% endfor %}
+        </ul>
+    {% else %}
+        <p style="margin-left: 5px">There are no available terms to support right now.</p>
+
+    {% endif %}
+
+    {% if suggested_categories %}
+        <h4>Suggested Categories:</h4>
+        <ul>
+            {% for category in suggested_categories %}
+                <li>
+                    {{ category.name }} ({{ category.numberofusers }} users supported)
+                    <form method="POST" action="{% url 'support_suggestion' category.pk 'Category' %}">
+                        {% csrf_token %}
+                        <button type="submit">Support</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p style="margin-left: 5px">There are no available categories to support right now.</p>
+
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,231 @@
+{% extends 'base.html' %}
+{% block title %}Global Search Insights | Training{% endblock %}
+{% block mainblock %}
+
+    <h1 style="float: none;display: table-cell;white-space: nowrap; font-weight: normal">Answers for <strong>{{ category }}</strong> Category Turital:</h1>
+    <a style="font-size: 20px" href="{{ article_link }} " target="_blank">article</a><br>
+    {% if not training_num|divisibleby:2%}
+        <a style="font-size: 20px" href="{% url 'trainingExplanations' training_num|add:1 %}">next training explanation</a>
+    {% endif %}
+
+    {% load crispy_forms_tags %}
+    <form method="POST" class="form-group">
+        <head>
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+
+input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin: 10px;
+}
+
+    label {
+        padding: 0 12px 12px 0;
+        font-size: 18px;
+        display: inline-block;
+    }
+
+
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 0px 20px 0px 20px; {#top, right, bottom, left#}
+    }
+
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+        padding:0 5px 5px 10px;
+    }
+
+    .col-50 {
+        float: left;
+        width: 50%;
+        margin-top: 6px;
+        padding: 10px;
+    }
+
+    /* Clear floats after the columns */
+    .row::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    p {
+        margin: 10px 20px 10px 0;
+        font-weight: 300;
+        font-size: 20px;
+        line-height: 24px;
+}
+    a{
+        color: blue;
+    }
+
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-75, .col-50, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+    </style>
+    </form>
+
+        <form class="form-group">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-50">
+                <p style="color: #000ac8"> Is there free access to the website?</p>
+                <p><strong>The correct answer is: </strong>{{ results.free_access.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.free_access.1 }}</p><br>
+                {% if training_num != 7%}
+                    <br><br>
+                {% endif %}
+                <p style="color: #000ac8"> Select the content producer:</p>
+                <p><strong>The correct answer is: </strong>{{ results.content_producer.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.content_producer.1 }}</p><br>
+                {% if training_num == 8%}
+                    <br>
+                {% endif %}
+                <p style="color: #000ac8"> What is the author background? </p>
+                <p><strong>The correct answer is: </strong>{{ results.author.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.author.1 }}</p><br>
+                {% if training_num != 3 and training_num != 7 and training_num != 2%}
+                    <br><br>
+                {% endif %}
+                {% if training_num == 2%}
+                    <br>
+                {% endif %}
+                <p style="color: #000ac8"> Are there any scientific terms that lay people do not understand?</p>
+                <p><strong>The correct answer is: </strong>{{ results.dont_understand.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.dont_understand.1 }}</p><br>
+                {% if results.explanations %}
+                    <p style="color: #000ac8"> Are there any explanations for the scientific terms?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.explanations.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.explanations.1 }}</p><br>
+                {% endif %}
+
+            </div>
+            <div class="col-50">
+                <p style="color: #000ac8"> Select the site's type:</p>
+                <p><strong>The correct answer is: </strong>{{ results.site_type.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.site_type.1 }}</p><br>
+                {% if training_num == 7%}
+                    <br><br>
+                {% endif %}
+                <p style="color: #000ac8"> How recent is the information?</p>
+                <p><strong>The correct answer is: </strong>{{ results.recent.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.recent.1 }}</p><br><br>
+                {% if training_num == 3 or training_num == 6%}
+                    <br>
+                {% endif %}
+                <p style="color: #000ac8"> Is a scientific background (high school or above) required to understand the information?</p>
+                <p><strong>The correct answer is: </strong>{{ results.scientific_background.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.scientific_background.1 }}</p><br>
+                {% if training_num == 3 %}
+                    <br>
+                {% endif %}
+                {% if training_num == 7 or training_num == 8%}
+                    <br><br><br><br>
+                {% endif %}
+                <p style="color: #000ac8"> Are there major scientific errors in the link?</p>
+                <p><strong>The correct answer is: </strong>{{ results.errors.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.errors.1 }}</p><br><br>
+                <p style="color: #000ac8"> How accurate is the scientific content presented in the link?</p>
+                <p><strong>The correct answer is: </strong>{{ results.accuracy.0 }}</p>
+                <p><strong>Explanation:</strong> {{ results.accuracy.1 }}</p><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-75">
+                <p style="color: #000ac8"> Are the following sources available in the link? (mark all that apply)</p>
+                <p><strong>The correct answer is: </strong>{{ results.sources.0 }}</p>
+                <p><strong>Explanation:</strong></p>
+                {% for expalin in results.sources.1 %}
+                    <p> {{ expalin }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% if training_num == 7 or training_num == 8 %}
+            <div class="row">
+                <div class="col-50">
+                    <br><br>
+                    <p style="color: #000ac8"> Is there reference to everyday life?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.everyday.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.everyday.1 }}</p><br><br>
+                    <p style="color: #000ac8"> Does the content present advantages and disadvantages or risks and contributions?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.risk_contribute.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.risk_contribute.1 }}</p><br>
+                    {% if training_num == 7 %}
+                        <br>
+                    {% endif %}
+                    <p style="color: #000ac8">Is malicious meaning is alluded to in the text ("We are being tricked")</p>
+                    <p><strong>The correct answer is: </strong>{{ results.malicious.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.malicious.1 }}</p><br>
+                </div>
+                <div class="col-50">
+                    <p style="color: #000ac8"> Are there local examples in the content? (e.g. relevant case study in a country or ethnic group that speaks the language of the content)</p>
+                    <p><strong>The correct answer is: </strong>{{ results.examples.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.examples.1 }}</p><br>
+                    <p style="color: #000ac8"> Does the content reject or reinforce the discussed conspiracy theory?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.theory.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.theory.1 }}</p><br>
+                    <p style="color: #000ac8"> Do claims contradict accepted scientific explanations?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.scientific_explanations.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.scientific_explanations.1 }}</p><br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-75">
+                    <p style="color: #000ac8"> Are specific groups in society (pharma, Jews, Muslims etc.),  institutions or governments are presented as the enemy?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.enemy.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.enemy.1 }}</p><br>
+
+                </div>
+            </div>
+
+        {% else %}
+            <div class="row">
+                <div class="col-50">
+                    <br><br>
+                    <p style="color: #000ac8"> Is there reference to everyday life?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.everyday.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.everyday.1 }}</p><br>
+
+                </div>
+                <div class="col-50">
+                    <p style="color: #000ac8"> Are there local examples in the content? (e.g. relevant case study in a country or ethnic group that speaks the language of the content)</p>
+                    <p><strong>The correct answer is: </strong>{{ results.examples.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.examples.1 }}</p><br>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-75">
+                    <p style="color: #000ac8"> Does the content present advantages and disadvantages or risks and contributions?</p>
+                    <p><strong>The correct answer is: </strong>{{ results.risk_contribute.0 }}</p>
+                    <p><strong>Explanation:</strong> {{ results.risk_contribute.1 }}</p><br>
+                </div>
+            </div>
+
+
+        {% endif %}
+    </form>
+
+{% endblock %}

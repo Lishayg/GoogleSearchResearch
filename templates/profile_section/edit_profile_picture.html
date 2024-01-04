@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}International citizen science | Edit Profile Picture{% endblock %}
+{% block mainblock %}
+
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        input[type=submit] {
+            background-color: #000ac8;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: left;
+            margin: 10px;
+        }
+
+        input[type=submit]:hover {
+          background-color: #042078;
+        }
+
+    </style>
+
+    <h1 style="float: none;display: table-cell;white-space: nowrap;">Choose Your Profile Photo:</h1>
+    <form method="post">
+    {% csrf_token %}
+        <h2>Default:</h2>
+        <div class="image-row">
+            <label>
+                <input type="radio" name="profile_photo" value="profile_imgs/DefaultProfilePhoto.png">
+                <img src="{% static 'images/profile_imgs/DefaultProfilePhoto.png' %}" width="135px" height="135px">
+            </label>
+        </div>
+        <br><br>
+        <h2>Women:</h2>
+            <div class="image-row">
+            {% for icon in icon_list_women %}
+                <label class="icon-label">
+                    <input type="radio" name="profile_photo" value="{{ icon }}">
+                    <img src="{% static icon %}" width="150px" height="150px" style="padding-right: 15px">
+                </label>
+                {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                    </div>
+                    <br>
+                    <div class="image-row">
+                {% endif %}
+            {% endfor %}
+        </div>
+        <br><br>
+        <h2>Men:</h2>
+            <div class="image-row">
+            {% for icon in icon_list_men %}
+                <label class="icon-label">
+                    <input type="radio" name="profile_photo" value="{{ icon }}">
+                    <img src="{% static icon %}" width="150px" height="150px" style="padding-right: 15px">
+                </label>
+                {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                    </div>
+                    <br>
+                    <div class="image-row">
+                {% endif %}
+            {% endfor %}
+            </div>
+        <br><br>
+        <div class="form-group">
+            <input type="submit" value="Update"/>
+        </div>
+    </form>
+
+{% endblock%}

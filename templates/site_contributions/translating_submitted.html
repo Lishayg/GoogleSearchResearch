@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Global Search Insights | Translate Terms{% endblock %}
+{% block mainblock %}
+    <form method="post">
+    {% csrf_token %}
+    <h2  style="float: none;display: table-cell;flex-wrap: nowrap;">Thanks for your translation!</h2><br>
+    <div class="readmore_bt" style="margin-left: 0"><a href="{% url 'home' %}">Home</a></div><br>
+    </form>
+{% endblock %}
+

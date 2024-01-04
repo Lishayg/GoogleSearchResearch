@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}Global Search Insights | About{% endblock %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block mainblock %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+        <form class="form-group">
+            <style>
+                .container {
+                  border-radius: 5px;
+                  background-color: #f2f2f2;
+                  padding: 0px 20px 0px 20px; {#top, right, bottom, left#}
+                }
+
+                .social-share {
+                    margin-top: 10px;
+                    margin-bottom: 15px;
+                }
+
+                .share-button {
+                    display: inline-block;
+                    margin-right: 10px;
+                    color: #ffffff;
+                    border-radius: 50%;
+                    padding: 10px;
+                    font-size: 20px;
+                    line-height: 1;
+                    transition: background-color 0.3s;
+                }
+                .facebook {
+                    background-color: #3b5998; /* Facebook color */
+                }
+
+                .linkedin {
+                    background-color: #0077b5; /* LinkedIn color */
+                }
+
+                .twitter {
+                    background-color: #1da1f2; /* Twitter color */
+                }
+
+                .whatsapp {
+                    background-color: #25d366; /* WhatsApp color */
+                }
+
+
+                .facebook:hover {
+                    background-color: #2d4278; /* Darker shade for Facebook */
+                }
+
+                .linkedin:hover {
+                    background-color: #005082; /* Darker shade for LinkedIn */
+                    color: #ffffff;
+                }
+
+                .twitter:hover {
+                    background-color: #1581d3; /* Darker shade for Twitter */
+                    color: #ffffff;
+                }
+
+                .whatsapp:hover {
+                    background-color: #1d9a4c; /* Darker shade for WhatsApp */
+                    color: #ffffff;
+                }
+
+
+            </style>
+            <h1 style="float: none;display: table-cell;flex-wrap: nowrap;">How good is the quality of science information available online in my language?</h1>
+            <div class="entry-content">
+                <p>Привет, Merhaba, Hola, Olá, Bonjour, Hallo, 你好, こんにちは, नमस्ते, 안녕하세요</p>
+
+                <p><iframe width="620" height="415" src="https://www.youtube.com/embed/ZYTlIdUWxss" title="Your Chances of Finding Quality Scientific Information Depends on the Language You Search In" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
+                <p>The abundance of online information, especially scientific content, provides tremendous potential to help people make more informed decisions as individuals and as a society. Search engines are not only a major gateway to information nowadays, but also a critical tool for students and citizens alike to learn about science and make use of it in their everyday life,
+                    all over the world. Yet, there is little empirical evidence of the quality, veracity, credibility, and comprehensiveness of information that search engines provide in response to scientific queries. Moreover, it is unclear how the quality of information varies across cultures and languages. While early studies of the internet emphasized its egalitarian potential
+                    to promote equality of access to information and upward social mobility as a result of it, we are now increasingly aware of the capacity of information systems to internalize bias, and sometimes even perpetuate it. Despite the importance of science, science communication, and search engines as the gateway to information, no prior work had systematically evaluated
+                    the quality of information offered by search engines for scientific queries in different countries and languages.</p>
+                <p>In this project, we are launching a large-scale algorithmic audit of Google Search, and use a mixed-methods approach to study the quality of results in different countries and languages. The audit will issue a set of carefully curated scientific queries to Google Search in multiple languages, emulate their execution from different countries, and collect their search
+                    results over time. Our queries are selected to represent both theory- and data-driven approaches on a global scale, including searches for canonical scientific concepts from a globally representee science curriculum (e.g. organism, atom), socio-scientific issues from United Nations Sustainable Development Goals (e.g. climate change, food security), emerging science
+                    topics from the top scientific journals annual summaries (e.g. CRISPR, mars), scientific conspiracy theories (e.g. vaccines cause autism, earth is flat) and frequently-viewed STEM entries in Wikipedia (e.g. standard deviation). Quality assessment of search results will be based on both quantitative and qualitative measures of quality, including scientific quality,
+                    pedagogical quality, source of origin, and recency.</p><br>
+
+                <div class="social-share">
+                    <h2><b>Want to help?</b></h2>
+                    <h3>Share our website in the social media</h3>
+                    <a href="javascript:void(0)" onclick="shareFacebook()" class="share-button facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="javascript:void(0)" onclick="shareTwitter()" class="share-button twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="javascript:void(0)" onclick="shareLinkedin()" class="share-button linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="javascript:void(0)" onclick="shareWhatsapp()" class="share-button whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div><br><br>
+
+                <h3><b>Our group members:</b></h3>
+                <p><a href="https://ayeletlab.net.technion.ac.il/members/ayelet-baram-tsabari/"><img class="alignnone wp-image-2708" src="{% static 'images/members_imgs/Ayelet-Barram-Tsabari-Kfir-Ziv.png'%}" alt="AYELET" width="84" height="124" /><br />
+                Prof. Ayelet Baram-Tsabari,</a><br />
+                Head of the Applied Science Communication research group<br />
+                Technion - Israel Institute of Technology, Israel</p>
+                <p><a href="https://www.nirg.net/"><img class="alignnone wp-image-2923" src="{% static 'images/members_imgs/nir_grinberg.png'%}" alt="NIR" width="86" height="107" /><br />
+                Dr. Nir Grinberg</a><br />
+                Head of the Socially Embedded Lab<br />
+                Department of Software and Information Systems Engineering,<br />
+                Ben-Gurion University, Israel</p>
+                <p><a href="https://ayeletlab.net.technion.ac.il/members/shakked-dabran/"><img class="alignnone wp-image-2920" src="{% static 'images/members_imgs/shaked_dabran.png'%}" alt="Shakked1" width="87" height="130" /><br />
+                Ph.D Student Shakked Dabran</a><br />
+                Applied Science Communication research group<br />
+                Technion - Israel Institute of Technology</p>
+                <p><a href="https://ayeletlab.net.technion.ac.il/members/roni-shapira/"><img class="alignnone wp-image-2951 " src="{% static 'images/members_imgs/roni_shapira.png'%}" alt="RONI2" width="88" height="110" /><br />
+                M.Sc. Student Roni Shapira</a><br />
+                Applied Science Communication research group<br />
+                Technion - Israel Institute of Technology</p>
+                <p><img class="alignnone  wp-image-3149" src="{% static 'images/members_imgs/miri_yitshaki.png'%}" alt="miripic" width="93" height="122" /><br />
+                Miri Yitshaki<br />
+                Msc Student in Artificial Intelligence<br />
+                Department of Software and Information Systems Engineering,<br />
+                Ben Gurion University Socially Embedded Lab research group</p>
+                <p style="text-align: center">תודה, Thank you, شكرا, Спасибо, Teşekkürler, Gracias, Obrigado, Merci, Danke, 謝謝, ありがとう, धन्यवाद, 감사</p>
+            </div>
+    </form>
+    <script>
+        function shareFacebook() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var facebookUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
+            window.open(facebookUrl, "_blank", "width=550,height=400");
+        }
+
+        function shareTwitter() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var twitterUrl = "https://twitter.com/intent/tweet?url=" + url;
+            window.open(twitterUrl, "_blank", "width=550,height=400");
+        }
+
+        function shareLinkedin() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var linkedinUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + url;
+            window.open(linkedinUrl, "_blank", "width=550,height=400");
+        }
+
+        function shareWhatsapp() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var whatsappUrl = "https://wa.me/?text=" + url;
+            window.open(whatsappUrl, "_blank", "width=550,height=400");
+        }
+
+    </script>
+{% endblock %}

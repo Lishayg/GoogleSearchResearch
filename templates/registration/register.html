@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+{% block title %}Global Search Insights | Sign Up{% endblock %}
+{% load crispy_forms_tags %}
+{% block mainblock %}
+
+    <h1 style="float: none;display: table-cell;flex-wrap: nowrap;">Create New Account:</h1>
+    <form method="POST" class="form-group">
+        <head>
+            <style>
+                * {
+                    box-sizing: border-box;
+                }
+                input[type=text], select, textarea {
+                    width: 100%;
+                    padding: 12px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    resize: vertical;
+                }
+                label {
+                    padding: 12px 12px 12px 0;
+                    display: inline-block;
+                }
+
+                input[type=submit] {
+                    background-color: #000ac8;
+                    color: white;
+                    padding: 12px 20px;
+                    border: none;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    float: right;
+                    margin-bottom: 20px;
+                    margin-left: 10px;
+                }
+
+                input[type=submit]:hover {
+                  background-color: #042078;
+                }
+
+                .container {
+                  border-radius: 5px;
+                  background-color: #f2f2f2;
+                  padding: 0px 20px 0px 20px; {#top, right, bottom, left#}
+                }
+
+                .col-25 {
+                  float: left;
+                  width: 25%;
+                  margin-top: 6px;
+                }
+
+                .col-50 {
+                    float: left;
+                    width: 50%;
+                    margin-top: 6px;
+                    padding: 10px;
+                }
+
+                /* Clear floats after the columns */
+                .row::after {
+                  content: "";
+                  display: table;
+                  clear: both;
+                }
+
+                /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+                @media screen and (max-width: 600px) {
+                  .col-25, .col-50, input[type=submit] {
+                    width: 100%;
+                    margin-top: 0;
+                  }
+                }
+            </style>
+        </head>
+    </form>
+
+
+    <form method="POST" >
+    {% csrf_token %}
+        <p class="text" style="font-size: 20px">If you already have an account, <a href="/login">login</a> instead.</p>
+        <p class="text" style="font-size: 20px">If you want to register as a guest, <a href="/guest_registration">click</a> here.</p>
+        {% crispy form %}
+
+        <div class="row">
+        <input type="submit" value="Sign up">
+        </div>
+
+
+    </form>
+{% endblock %}

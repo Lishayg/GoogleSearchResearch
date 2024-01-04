@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block mainblock %}
+<h1 style="float: none;display: table-cell;flex-wrap: nowrap;">Register as guest:</h1>
+
+{% load crispy_forms_tags %}
+    <form method="POST" class="form-group">
+        <head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+    background-color: #000ac8;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    float: right;
+    margin: 10px
+}
+
+input[type=submit]:hover {
+  background-color: #042078;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 0px 20px 0px 20px; {#top, right, bottom, left#}
+}
+
+.col-65 {
+  float: left;
+  width: 65%;
+  margin-top: 6px;
+    padding: 10px;
+}
+
+.col-50 {
+    float: left;
+    width: 50%;
+    margin-top: 6px;
+    padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-65, .col-50, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>
+
+
+</form>
+
+
+<form method="POST">
+{% csrf_token %}
+    <h3>Pay Attention!</h3>
+    <p style="margin: 0">When you register as a guest, any training session you complete will not be saved once you log out.<br>
+        This means that each time you sign up as a guest, you will need to go through the training process again. <br>
+        Additionally, as a guest user, you won't have the ability to suggest new terms or categories.</p>
+    <div class="row">
+        <div class="col-50">
+            <label for="language">Language:</label><br>
+            <select id="language" name='language' required="required">
+            <option disabled selected value> -- select an option -- </option>
+            {% for language in languages %}
+                <option value='{{language.id}}'>{{ language.name }}</option>
+            {% endfor %}
+            </select><br>
+            <label for="language_proficiency">Level of proficiency in the language I chose:</label><br>
+            <select id="language_proficiency" name="language_proficiency" required="required">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="0">No Proficiency</option>
+                <option value="1">Elementary Proficiency</option>
+                <option value="2">Limited Working Proficiency</option>
+                <option value="3">Professional Working Proficiency</option>
+                <option value="4">Full Professional Proficiency</option>
+                <option value="5">Native / Bilingual Proficiency</option>
+            </select>
+        </div>
+        <div class="col-50">
+            <label for="country">Country:</label><br>
+            <select id="country" name='country' required="required">
+                <option disabled selected value> -- select an option -- </option>
+                {% for country in countries %}
+                    <option value='{{country.id}}'>{{ country.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="education">What is your level of education?</label><br>
+            <select id="education" name="education" required="required">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="Basic">Basic</option>
+                <option value="High school, without a matriculation certificate">High school, without a matriculation certificate</option>
+                <option value="High school, with a matriculation certificate">High school, with a matriculation certificate</option>
+                <option value="High school without an academic degree">High school without an academic degree</option>
+                <option value="Studying for a bachelor's degree">Studying for a bachelor's degree</option>
+                <option value="Bachelor degree">Bachelor degree</option>
+                <option value="Studying for a Master's or a Ph.D.">Studying for a Master's or a Ph.D.</option>
+                <option value="Has a Master's or a Ph.D.">Has a Master's or a Ph.D.</option>
+            </select><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-65">
+            <label for="science_ed">What is the setting in which you studied science at the highest level?<br>
+                ('Sciences' includes, for example, biology, chemistry, physics, computer science)</label><br>
+            <select id="science_ed" name="science_ed" required="required">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="Elementary school (up to sixth grade)">Elementary school (up to sixth grade)</option>
+                <option value="Middle school or 8-year school">Middle school or 8-year school</option>
+                <option value="High school up to 10th grade">High school up to 10th grade</option>
+                <option value="High school with a scientific or practical major">High school with a scientific or practical major</option>
+                <option value="Scientific / technological / mathematical academic degree">Scientific / technological / mathematical academic degree</option>
+                <option value="A non-science academic degree">A non-science academic degree</option>
+                <option value="Professional or military course, training during work">Professional or military course, training during work</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <input type="submit" value="Submit"/>
+    </div>
+
+
+</form>
+{% endblock %}

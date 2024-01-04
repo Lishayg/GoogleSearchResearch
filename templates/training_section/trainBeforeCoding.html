@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Global Search Insights | Training{% endblock %}
+{% block mainblock %}
+
+    <form method="post">
+    {% csrf_token %}
+    <h2  style="float: none;display: table-cell;flex-wrap: nowrap;"> <strong>Opps... You haven't trained yet</strong></h2>
+    <h3>Before diving into the coding process, we'll provide you with comprehensive training to equip you with the skills you need to succeed.<br>
+        To get started, simply choose the category that sparks your interest and matches your aspirations.<br><br>
+        Here are the available categories for training:</h3><br>
+    <div class="basic_cat" ><a href="{% url 'training' 1%}">Basic Science</a></div>
+    <div class="news_cat"><a href="{% url 'training' 5%}">Science in the News</a></div>
+    <div class="society_cat"><a href="{% url 'training' 3%}">Science in Society</a></div>
+    <div class="conspiracy_cat"><a href="{% url 'training' 7%}">Science Related Conspiracies</a></div>
+    </form>
+{% endblock %}

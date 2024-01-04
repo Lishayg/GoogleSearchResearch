@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Global Search Insights | Forum{% endblock %}
+<head>
+    <style>
+        form{
+            border:4px solid black;
+            margin: 0 auto;
+            padding: 40px;
+            width: 30%;
+            float: left;}
+        div1{width:30%}
+        div2{width:70%}
+    </style>
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"0>#}
+
+</head>
+{% block mainblock %}
+    <style>.image-container {
+        width: 380px;
+        margin-left:0;
+        margin-bottom: 50px;
+    }</style>
+
+
+<div class="services_section_discussion layout_padding">
+         <div class="container">
+         <h1 class="services_taital">Choose a topic </h1>
+         <p class="about_text" style="margin-bottom: 30px" >All topics are science related.<br>
+             Choose a topic you want to discuss or see previous discussion: </p>
+             <div class="services_section_2">
+                 <div class="row">
+                     <div class="image-container">
+                         <a href="{% url 'discussions' category='basic' %}">
+                            <img src="{% static 'images/forum_imgs/basic science.jpeg'%}">
+                         </a>
+                         <h4 class="selection_text" >Basic</h4>
+                     </div>
+                     <div class="image-container">
+                         <a href="{% url 'discussions' category='news' %}">
+                            <img src="{% static 'images/forum_imgs/news.jpeg'%}">
+                         </a>
+                        <h4 class="selection_text" >News</h4>
+                    </div>
+                    <div class="image-container">
+                        <a href="{% url 'discussions' category='society' %}">
+                            <img src="{% static 'images/forum_imgs/society.jpeg'%}">
+                        </a>
+                        <h4 class="selection_text">Society</h4>
+                    </div>
+                     <div class="image-container">
+                         <a href="{% url 'discussions' category='conspiracy' %}">
+                            <img src="{% static 'images/forum_imgs/conspiracy.jpeg'%}">
+                         </a>
+                        <h4 class="selection_text">Conspiracy</h4>
+                     </div>
+                 </div>
+            </div>
+         </div>
+</div>
+
+{% endblock %}
+
+
+

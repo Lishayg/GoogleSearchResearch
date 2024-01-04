@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Global Search Insights | Coding {% endblock %}
+
+{% block mainblock %}
+    <form method="POST" class="form-group">
+        <head>
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    input[type=text], select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+      font-size: 18px;
+    }
+        input[type=submit] {
+        background-color: #000ac8;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+        margin: 10px 20px;
+    }
+    input[type=submit]:hover {
+      background-color: #042078;
+    }
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 0px 20px 0px 20px; {#top, right, bottom, left#}
+    }
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+        padding:0px 5px 5px 20px;
+    }
+
+    .col-50 {
+        float: left;
+        width: 50%;
+        margin-top: 6px;
+        padding: 10px;
+    }
+
+    /* Clear floats after the columns */
+    .row::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    p {
+     margin: 2px;
+     font-weight: 300;
+     font-size: 20px;
+     line-height: 24px;
+    }
+
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-75, .col-50, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+    #term-inputs .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    #term-inputs label {
+        margin: 10px 5px;
+        flex-basis: 19%;
+    }
+    #term-inputs input {
+        width: 700px;
+        height: 50px;
+        margin: 10px 20px;
+    }
+
+    #term-inputs div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    </style>
+    </form>
+
+    <h1 style="float: none;display: table-cell;flex-wrap: nowrap;">Coding Term Choosing:</h1>
+    <h2> Before you will answer the questionnaire you need to choose the term you want to code<br><br></h2>
+
+    <form method="POST" class="form-group">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-75">
+                <p for="category">Please choose the category of the term you would like to code:</p>
+                <select id="category" name="category" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for category in categories %}
+                        <option value="{{category.id}}">{{ category.name }}</option>
+                    {% endfor %}
+                </select><br>
+            </div>
+
+        </div>
+        <div id="loading1" style="display: none;">
+            <img src="{% static 'images/loading.gif' %}" width="100" height="100">
+        </div>
+        <div class="row">
+            <div class="col-75">
+                <br><div id="no-translations" style="font-size: 20px"></div>
+                <div id="terms-container">
+                    <p>Please choose the term you want to code:</p>
+                    <select id="translated_terms" name="translated_terms" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                    </select><br>
+                </div>
+            </div>
+        </div>
+        <div id="loading2" style="display: none;">
+            <img src="{% static 'images/loading.gif' %}" width="100" height="100">
+        </div>
+        <div class="row">
+            <div class="col-75">
+                <br><label id="no_links" style="font-size: 18px">No related links found. Please search this term in
+                Google and choose you own link.</label>
+                <div id="related-links-container">
+                    <p>Please choose a link to code:</p>
+                    <select id="related-links" name="related-links">
+                        <option disabled selected value> -- select an option -- </option>
+                    </select><br>
+                </div>
+                <div id="loading3" style="display: none;">
+                    <img src="{% static 'images/loading.gif' %}" width="100" height="100">
+                </div>
+                <br><ul id="link_url" style="font-size: 20px"></ul><br>
+
+                <div id="link_using">
+                    <input type="checkbox" id="link_using_check" name="link_using_check">
+                    <label style="font-size: large" for="link_using_check">I will use my own link</label><br>
+                </div>
+
+            </div>
+        </div>
+
+         <div class="row" id="submit">
+            <br><input type="submit" value="Submit"/>
+         </div>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+            $('#terms-container').hide();
+            $('#no_links').hide();
+            $('#related-links-container').hide();
+            $('#link_url').hide();
+            $('#link_using').hide();
+            $('#submit').hide()
+            $('#category').change(function() {
+                $('#terms-container').hide();
+                $('#related-links-container').hide();
+                $('#link_url').hide();
+                $('#link_using').hide();
+                $('#loading1').show();  // Show loading spinner
+                $('#translated_terms').empty();
+                $('#related-links').empty();
+                var category = $(this).val();
+                $.ajax({
+                    url: "{% url 'get_translated_terms' %}",
+                    data: {
+                        'category': category,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.translated_terms.length == 0) {
+                            // Data is empty
+                            $('#translated_terms').hide();
+                            $('#related-links').empty();
+                            $('#terms-container').hide();
+                            $('#loading1').hide();
+                            $('#no-translations').html('No translation found. Go to <a href=/translating>translate terms</a> before coding.').show();
+                        } else {
+                            // Data is not empty
+                            $('#translated_terms').empty();
+                            $('#related-links').empty();
+                            $('#translated_terms').append($('<option>', {
+                              value: '',
+                              text: '-- select an option --',
+                              disabled: true,
+                              selected: true
+                            }));
+                            $.each(data.translated_terms, function(index, value) {
+                                $('#translated_terms').append($('<option>', {
+                                    value: value['id'],
+                                    text: value['term']
+                                }));
+                            });
+                            $('#terms-container').show();
+                            $('#loading1').hide();
+                        }
+                    }
+                });
+            });
+            $('#translated_terms').change(function() {
+                $('#related-links-container').hide();
+                $('#link_url').hide();
+                $('#link_using').hide();
+                $('#loading2').show();
+                $('#related-links').empty();
+                var term_id = $(this).val();
+                var checkboxElement = $("#link_using_check");
+                $.ajax({
+                    url: "{% url 'get_related_links_ids' %}",
+                    data: {
+                        'term_id': term_id,
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.links.length !== 0) {
+                            // Handle case when data is empty
+                            $('#related-links').empty();
+                            $('#related-links').append($('<option>', {
+                                value: '',
+                                text: '-- select an option --',
+                                disabled: true, // add the "disabled" attribute
+                                selected: true
+                            }));
+                            $.each(data.links, function (index, value) {
+                                $('#related-links').append($('<option>', {
+                                    value: value['id'],
+                                    text: 'link' + value['num']
+                                }));
+                            });
+                            $('#related-links').prop('required', true);
+                            $('#related-links-container').show();
+                            $('#no_links').hide();
+                            $('#loading2').hide();
+                            checkboxElement.prop("checked", false);
+                        }
+                        else {
+                            checkboxElement.prop("checked", true);
+                            $('#loading2').hide();
+                            $('#related-links-container').hide();
+                            $('#related-links').hide();
+                            $('#no_links').show();
+                            $('#link_using').hide();
+                            $('#submit').show()
+                        }
+                    }
+                });
+            });
+            $('#related-links').change(function() {
+                $('#link_url').hide();
+                $('#link_using').hide();
+                $('#loading3').show();
+                $('#link_url').empty();
+                var selected_link = $(this).val();
+                $.ajax({
+                    url: "{% url 'get_related_link_url' %}",
+                    data: {
+                        'link_id': selected_link,
+                        'name': 'click here to redirect to the chosen link'
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#link_url').empty();
+                        var value = data.link[0]
+                        $('#link_url').append($('<li>').append($('<a>', {
+                            href: value['url'],
+                            text: value['name'],
+                            target: '_blank'
+                        })));
+
+                        $('#link_url').show();
+                        $('#loading3').hide();
+                        $('#submit').show()
+                    }
+                });
+            });
+
+            $('#submit').click(function() {
+                // Submit the form to the server
+                $('#my-form').submit();
+            });
+        });
+    </script>
+{%  endblock %}
+

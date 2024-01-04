@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Global Search Insights | Home{% endblock %}
+{% block mainblock %}
+    <head>
+
+<!-- Font Awesome JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <style>
+        .social-share {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .share-button {
+            display: inline-block;
+            margin-right: 10px;
+            color: #ffffff;
+            border-radius: 50%;
+            padding: 10px;
+            font-size: 20px;
+            line-height: 1;
+            transition: background-color 0.3s;
+        }
+        .facebook {
+            background-color: #3b5998; /* Facebook color */
+        }
+
+        .linkedin {
+            background-color: #0077b5; /* LinkedIn color */
+        }
+
+        .twitter {
+            background-color: #1da1f2; /* Twitter color */
+        }
+
+        .whatsapp {
+            background-color: #25d366; /* WhatsApp color */
+        }
+
+        .facebook:hover {
+            background-color: #2d4278; /* Darker shade for Facebook */
+        }
+
+        .linkedin:hover {
+            background-color: #005082; /* Darker shade for LinkedIn */
+            color: #ffffff;
+        }
+
+        .twitter:hover {
+            background-color: #1581d3; /* Darker shade for Twitter */
+            color: #ffffff;
+        }
+
+        .whatsapp:hover {
+            background-color: #1d9a4c; /* Darker shade for WhatsApp */
+            color: #ffffff;
+        }
+</style>
+    </head>
+
+    <!--about section start -->
+      <div class="about_section layout_padding">
+         <div class="container">
+            <h1 class="about_taital">About our research</h1>
+            <div class="about_section_2">
+               <div class="row">
+                  <div class="col-lg-6">
+                     <div class="about_image"><img src="{% static 'images/about-img.png'%}" alt=""></div>
+                  </div>
+                  <div class="col-lg-6">
+                     <div class="about_taital_main">
+                        <p class="lorem_text">The abundance of online information, especially scientific content, provides tremendous potential to help people make more informed decisions as individuals and as a society. Search engines are not only a major gateway to information nowadays, but also a critical tool for students and citizens alike to learn about science and make use of it in their everyday life, all over the world. Yet, there is little empirical evidence of the quality, veracity, credibility, and comprehensiveness of information that search engines provide in response to scientific queries. Moreover, it is unclear how the quality of information varies across cultures and languages.<br>We need your help to map the quality of scientific information in as many countries and languages as possible! </p>
+                        <div class="read_bt"><a href="{% url 'about' %}">Read More</a></div>
+                     </div>
+                  </div>
+               </div>
+                <div class="social-share">
+                    <h2><b>Help us to make this research a citizen science!</b></h2>
+                    <h3>Share our website in the social media</h3>
+                    <a href="javascript:void(0)" onclick="shareFacebook()" class="share-button facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="javascript:void(0)" onclick="shareTwitter()" class="share-button twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="javascript:void(0)" onclick="shareLinkedin()" class="share-button linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="javascript:void(0)" onclick="shareWhatsapp()" class="share-button whatsapp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+
+            </div>
+
+         </div>
+
+      </div>
+
+      <!--about section end -->
+      <!-- available actions section start -->
+      <div class="services_section layout_padding">
+         <div class="container">
+         <h1 class="services_taital">How can you contribute </h1>
+         <p class="about_text">You can contribute to the research with one or more action below:</p>
+             <div class="services_section_2">
+                 <div class="row">
+                     <div class="col-lg-4">
+                         <div class="icon_box">
+                             <a href={% url 'before_coding' %}><img src="{% static 'images/icon-1.png'%}" alt=""></a>
+                         </div>
+                            <h4 class="selection_text">Code</h4>
+                            <p class="ipsum_text">choose a term and an article, and decide about its quality with a predefined questionnaire. </p>
+                        </div>
+                        {% if user.usertype != 'guest' %}
+                            <div class="col-lg-4">
+                                <div class="icon_box">
+                                    <a href={% url 'suggesting' %}><img src="{% static 'images/icon-2.png'%}" alt=""></a>
+                                </div>
+                                <h4 class="selection_text">Suggest</h4>
+                                <p class="ipsum_text">Suggest new terms or categories that will be added to the research.</p>
+
+                            </div>
+                        {% endif %}
+                        <div class="col-lg-4">
+                            <div class="icon_box">
+                                <div class="icon_1"><a href={% url 'translating' %}><img src="{% static 'images/icon-3.png'%}" alt=""></a></div>
+                            </div>
+                            <h4 class="selection_text">Translate</h4>
+                            <p class="ipsum_text">Translate terms in your language to involved them in the research</p>
+                        </div>
+                 </div>
+             </div>
+         </div>
+      </div>
+
+  <!-- available actions section end -->
+  <!-- interactive map section start -->
+  <div class="blog_section_layout_padding">
+     <div class="outer_map_container">
+             <h1 class="Data_title">Existing Data Overview </h1>
+            <div class="row inner_map_container" style="display: block">
+                <div class='tableauPlaceholder' id='viz1690833519092' style='position: relative'>
+                    <noscript>
+                        <a href='#'>
+                            <img alt='Worldwide Participation ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Wo&#47;Worldwidemap-31_7&#47;Sheet1&#47;1_rss.png' style='border: none' />
+                        </a>
+                    </noscript>
+                    <object class='tableauViz'  style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                        <param name='embed_code_version' value='3' />
+                        <param name='site_root' value='' />
+                        <param name='name' value='Worldwidemap-31_7&#47;Sheet1' />
+                        <param name='tabs' value='no' />
+                        <param name='toolbar' value='yes' />
+                        <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Wo&#47;Worldwidemap-31_7&#47;Sheet1&#47;1.png' />
+                        <param name='animate_transition' value='yes' />
+                        <param name='display_static_image' value='yes' />
+                        <param name='display_spinner' value='yes' />
+                        <param name='display_overlay' value='yes' />
+                        <param name='display_count' value='yes' />
+                        <param name='language' value='en-US' />
+                        <param name='filter' value='publish=yes' />
+                    </object>
+                </div>
+                <script type='text/javascript'>
+                    var divElement = document.getElementById('viz1690833519092');
+                    var vizElement = divElement.getElementsByTagName('object')[0];
+                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+                <p></p>
+
+                <button class="collapsible" id="myBtn" >View more</button>
+
+            <div class="content_maps">
+                  <p></p>
+                    <div class='tableauPlaceholder' id='viz1690996791606' style='position: relative'>
+                        <noscript>
+                            <a href='#'>
+                                <img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;Dashboard_16909886030130&#47;Dashboard1&#47;1_rss.png' style='border: none' />
+                            </a>
+                        </noscript>
+                        <object class='tableauViz'  style='display:none;'>
+                            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                            <param name='embed_code_version' value='3' />
+                            <param name='site_root' value='' />
+                            <param name='name' value='Dashboard_16909886030130&#47;Dashboard1' />
+                            <param name='tabs' value='no' />
+                            <param name='toolbar' value='yes' />
+                            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Da&#47;Dashboard_16909886030130&#47;Dashboard1&#47;1.png' />
+                            <param name='animate_transition' value='yes' />
+                            <param name='display_static_image' value='yes' />
+                            <param name='display_spinner' value='yes' />
+                            <param name='display_overlay' value='yes' />
+                            <param name='display_count' value='yes' />
+                            <param name='language' value='en-US' />
+                            <param name='filter' value='publish=yes' />
+                        </object>
+                    </div>
+                <script type='text/javascript'>
+                    var divElement = document.getElementById('viz1690996791606');
+                    var vizElement = divElement.getElementsByTagName('object')[0];
+                    if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1100px';vizElement.style.height='1027px';}
+                    else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1100px';vizElement.style.height='1027px';}
+                    else { vizElement.style.width='100%';vizElement.style.height='827px';}
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+            </script>
+            </div>
+
+         <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active_map");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+                  this.innerHTML = "View more";
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+                  this.innerHTML = "View less";
+            }
+          });
+        }
+
+        function shareFacebook() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var facebookUrl = "https://www.facebook.com/sharer/sharer.php?u=" + url;
+            window.open(facebookUrl, "_blank", "width=550,height=400");
+        }
+
+        function shareTwitter() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var twitterUrl = "https://twitter.com/intent/tweet?url=" + url;
+            window.open(twitterUrl, "_blank", "width=550,height=400");
+        }
+
+        function shareLinkedin() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var linkedinUrl = "https://www.linkedin.com/sharing/share-offsite/?url=" + url;
+            window.open(linkedinUrl, "_blank", "width=550,height=400");
+        }
+
+        function shareWhatsapp() {
+            var url = encodeURIComponent("http://127.0.0.1:8000/");
+            var whatsappUrl = "https://wa.me/?text=" + url;
+            window.open(whatsappUrl, "_blank", "width=550,height=400");
+        }
+        </script>
+        </div>
+    </div>
+</div>
+      <!-- interactive map section end -->
+      <!-- contact section start -->
+      <div class="contact_section layout_padding">
+      <form method="POST" action="{% url 'contact_submitted' %}" >
+         {% csrf_token %}
+          <div class="container">
+            <h1 class="contact_taital">Contact us</h1>
+            <p class="contact_text">If you have any question you can fill in the form, and we will get back to you!</p>
+            <div class="contact_section_2 layout_padding">
+               <div class="row">
+                  <div class="col-md-6">
+                         <textarea class="mail_text" placeholder="Full Name" id="name" name="name"></textarea>
+                        <textarea class="mail_text" placeholder="Phone Number" id="phone" name="phone"></textarea>
+                        <textarea class="mail_text" placeholder="Email" id="email" name="email"></textarea>
+                        <textarea class="message-bt" placeholder="Message" rows="5" id="comment" name="message"></textarea><br><br>
+                         <input type="submit" value="Submit" style="float: left">
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+      </div>
+      <!-- contact section end -->
+{% endblock %}
+
+
+
+
+

@@ -1,0 +1,14 @@
+{% autoescape off %}
+    Hi {{ user }},
+
+    To complete the change password process and re-activate your account, please click on the following link:
+
+    http://{{ domain }}{% url 'activate_email_change' uidb64=uid token=token%}
+
+    By clicking the link, you will gain access to our platform where you can actively participate in our research. Your valuable insights will contribute to improving search experiences globally.
+
+    If you encounter any difficulties during the confirmation process or have any questions, please don't hesitate to reach out to us.
+
+    Best regards,
+    GlobalSearchStudy team.
+{% endautoescape %}

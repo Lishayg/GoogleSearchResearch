@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Global Search Insights | Training{% endblock %}
+{% block mainblock %}
+    <script src="https://kit.fontawesome.com/7624f0df08.js" crossorigin="anonymous"></script>
+
+    <h1 style="float: none;display: table-cell;white-space: nowrap; font-weight: normal">Turital for <strong>{{ category }}</strong> Category:</h1>
+    <h3> Please fill in the form after you read the article: </h3>
+    <a href="{{ article_link }}" target="_blank">{{ article_link_text }}</a>
+
+
+    <form method="POST" class="form-group">
+        <head>
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+
+    input[type=text] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+        margin: 10px;
+    }
+
+    label {
+        padding: 0 12px 12px 0;
+        font-size: 20px;
+        display: inline-block;
+    }
+
+    input[type=submit] {
+        background-color: #000ac8;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: left;
+        margin: 10px;
+    }
+
+    input[type=submit]:hover {
+      background-color: #042078;
+    }
+
+    .container {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 0px 20px 0px 20px; {#top, right, bottom, left#}
+    }
+
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+        padding:0 5px 5px 10px;
+    }
+
+    .col-50 {
+        float: left;
+        width: 50%;
+        margin-top: 6px;
+        padding: 10px;
+    }
+
+    /* Clear floats after the columns */
+    .row::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    p {
+        margin: 10px 20px 10px 0;
+        font-weight: 300;
+        font-size: 20px;
+        line-height: 24px;
+}
+    a{
+        color: blue;
+    }
+
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .col-75, .col-50, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+      }
+    }
+
+    .help-icon {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+      margin-left: 5px;
+    }
+
+    .help-icon:before {
+      content: "\f059";
+      font-family: "Font Awesome 5 Free";
+      font-size: 16px;
+      color: #666;
+    }
+
+    .help-icon:hover:before,
+    .help-icon:focus:before {
+      color: #000;
+    }
+
+    .help-icon[data-help-text]:hover:after,
+    .help-icon[data-help-text]:focus:after {
+      content: attr(data-help-text);
+      white-space: pre-wrap;
+      display: inline-block;
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9999;
+      min-width: 300px;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      background: #fff;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.5;
+      font-family: Arial, sans-serif;
+      font-weight: normal;
+    }
+    </style>
+    </form>
+
+
+    <form method="POST" class="form-group">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-50">
+                <p> Is there free access to the website?</p>
+                    <select id="q1" name="free_access" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.freeaccess is not None %}
+                                <option value="{{answer.num}}">{{ answer.freeaccess}}</option>
+                            {% endif %}
+                        {% endfor %}
+
+                    </select>
+                <p> Select the content producer:</p>
+                <select id="q3" name="content_producer" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.contentproducer is not None %}
+                            <option value="{{answer.num}}">{{ answer.contentproducer}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select><br><br>
+                <p> What is the author background?
+                    <span class="help-icon" data-help-text="It is okay to use a direct link from the author's name to some background description.&#10;When the author background is not provided, you are not expected to google it."></span>
+                </p>
+                <select id="q5" name="author" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.authorbackground is not None %}
+                            <option value="{{answer.num}}">{{ answer.authorbackground}}</option>
+                        {% endif %}
+                    {% endfor %}
+
+                </select><br><br>
+                <p> Are there any scientific terms that lay people do not understand? <span class="help-icon" data-help-text="We would like to know how you felt about the atmosphere of the text.&#10;Is it written in a scientific manner?"></span></p>
+                <select id="q7" name="dont_understand" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.scientificterms is not None %}
+                            <option value="{{answer.num}}">{{ answer.scientificterms}}</option>
+                        {% endif %}
+                    {% endfor %}
+
+                </select><br><br>
+                <div id="q8-container">
+                    <p> Are there any explanations for the scientific terms?</p>
+                    <select id="q8" name="explanations">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.explanations is not None %}
+                                <option value="{{answer.num}}">{{ answer.explanations}}</option>
+                            {% endif %}
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-50">
+                <p> Select the site's type:
+                     <span class="help-icon" data-help-text="In case the site is ‘list of links’, please choose the first link and code it.&#10;It is OK if 2 raters will choose different links, We know it and take it into account."></span>
+                </p>
+                <select id="q2" name="site_type" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.sitetype is not None %}
+                            <option value="{{answer.num}}">{{ answer.sitetype}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <p> How recent is the information? <span class="help-icon" data-help-text="You can answer this question according to 3 options as following:&#10;- A specific date is presented&#10;- The last update of the website (Usually at the bottom of the page)&#10;- In cases where the date is not provided but there are many articles or references that mention a certain date, you may be able to rely on them."></span></p>
+                <select id="q4" name="recent" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.recentinformation is not None %}
+                            <option value="{{answer.num}}">{{ answer.recentinformation}}</option>
+                        {% endif %}
+                    {% endfor %}
+
+                </select>
+                <p> Is a scientific background (high school or above) required to understand the information? <span class="help-icon" data-help-text="To understand the content, we would like you to estimate whether basic scientific knowledge is sufficient.&#10;Is it possible for a person with basic scientific education to understand the content or not?"></span></p>
+                <select id="q6" name="scientific_background" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.scientificbackground is not None %}
+                            <option value="{{answer.num}}">{{ answer.scientificbackground}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select><br><br><br>
+                <p> Are there major scientific errors in the link? <span class="help-icon" data-help-text="Refers to specific errors you have identified."></span></p>
+                <select id="q9" name="errors" required="required">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.scientificerrors is not None %}
+                            <option value="{{answer.num}}">{{ answer.scientificerrors}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select><br>
+                <p> How accurate is the scientific content presented in the link? <span class="help-icon" data-help-text="Refers to your general impression of the text: Was it scientifically correct?"></span></p>
+                <select id="q10" name="accuracy" required>
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for answer in answers_text%}
+                        {% if answer.scientificaccuracy is not None %}
+                            <option value="{{answer.num}}">{{ answer.scientificaccuracy }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select> <br><br>
+            </div>
+        </div>
+        <div class="row" aria-required="true">
+            <div class="col-75">
+                <p> Are the following sources available in the link? (mark all that apply)</p>
+                {% for answer in answers_text%}
+                    {% if answer.availablesources is not None %}
+                        <input type="checkbox" id="q11{{ answer.num }}" name="sources" value="{{ answer.num }}">
+                        <label for="q11{{ answer.num }}">{{ answer.availablesources}}</label><br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% if training_num == 7 or training_num == 8 %}
+            <div class="row">
+                <div class="col-50">
+                    <br><br>
+                    <p> Is there reference to everyday life? <span class="help-icon" data-help-text="Any connection to everyday life is accepted:&#10;It can be an example or imagery and it can a simulation of the issue in daily experience.&#10;It does not have to be inclusive or big idea.&#10;ANY CONNECTION."></span></p>
+                    <select id="q12" name="everyday" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.lifereferences is not None %}
+                                <option value="{{answer.num}}">{{ answer.lifereferences}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <p> Does the content present advantages and disadvantages or risks and contributions? <span class="help-icon" data-help-text="Does the content present more than one attitude or opinion?&#10;In general, this question relates to socio-scientific issues such as hunger, poverty, and climate disasters."></span></p>
+                    <select id="q14" name="risk_contribute" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.contentpresent is not None %}
+                                <option value="{{answer.num}}">{{ answer.contentpresent}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <p> Is malicious meaning is alluded to in the text ("We are being tricked") <span class="help-icon" data-help-text="e.g. “Covid-19: The Greatest Hoax in History:&#10;The startling truth behind the planned world takeover”"></span></p>
+                    <select id="q16" name="malicious" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.maliciousmeaning is not None %}
+                                <option value="{{answer.num}}">{{ answer.maliciousmeaning}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-50">
+                    <p> Are there local examples in the content? (e.g. relevant case study in a country or ethnic group that speaks the language of the content) <span class="help-icon" data-help-text="In this question, you are asked about your country or your local area.&#10;As an example: In content about floods, the question is if your country has experienced any floods."></span></p>
+                    <select id="q13" name="examples" required>
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.localexamples is not None %}
+                                <option value="{{answer.num}}">{{ answer.localexamples}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <p> Does the content reject or reinforce the discussed conspiracy theory? <span class="help-icon" data-help-text="The search result includes two or more opposing views&#10;i.e., a conflict of views is represented"></span></p>
+                    <select id="q15" name="theory" required>
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.conspiracytheory is not None %}
+                                <option value="{{answer.num}}">{{ answer.conspiracytheory}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select><br>
+                    <p> Do claims contradict accepted scientific explanations? <span class="help-icon" data-help-text="e.g. The Ministry of Health claims that 5G is not responsible for Coronavirus outbreaks, but the text contradicts that claim."></span></p>
+                    <select id="q17" name="scientific_explanations" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.scientificexplanations is not None %}
+                                <option value="{{answer.num}}">{{ answer.scientificexplanations}}</option>
+                            {% endif %}
+                        {% endfor %}
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <p style="padding-left: 10px"> Are specific groups in society (pharma, Jews, Muslims etc.),  institutions or governments are presented as the enemy? <span class="help-icon" data-help-text="You should ignore conspiracy theorists as a “specific group in society”.&#10;We are looking if the link contains conspiratorial content, this criterion is looking to see&#10;if a specific group in society is being blamed for standing behind the conspiracy&#10;(e.g. “Nasa is hiding the truth“, “Scientists profit from saying climate change exists“ etc."></span></p>
+                <div class="col-50">
+                    <select id="q18" name="enemy" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.enemypresented is not None %}
+                                <option value="{{answer.num}}">{{ answer.enemypresented}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select><br><br>
+                </div>
+                <div class="col-50">
+                    <input type="submit" value="Submit"/>
+
+                </div>
+            </div>
+
+        {% else %}
+            <div class="row">
+                <div class="col-50">
+                    <br><br>
+                    <p> Is there reference to everyday life? <span class="help-icon" data-help-text="Any connection to everyday life is accepted:&#10;It can be an example or imagery and it can a simulation of the issue in daily experience.&#10;It does not have to be inclusive or big idea.&#10;ANY CONNECTION."></span></p>
+                    <select id="q12" name="everyday" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.lifereferences is not None %}
+                                <option value="{{answer.num}}">{{ answer.lifereferences}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                </div>
+                <div class="col-50">
+                    <p> Are there local examples in the content? (e.g. relevant case study in a country or ethnic group that speaks the language of the content)
+                        <span class="help-icon" data-help-text="In this question, you are asked about your country or your local area.&#10;As an example: In content about floods, the question is if your country has experienced any floods."></span></p>
+                    <select id="q13" name="examples" required="required">
+                        <option disabled selected value> -- select an option -- </option>
+                        {% for answer in answers_text%}
+                            {% if answer.localexamples is not None %}
+                                <option value="{{answer.num}}">{{ answer.localexamples}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-75">
+                    <p> Does the content present advantages and disadvantages or risks and contributions?<span class="help-icon" data-help-text="Does the content present more than one attitude or opinion?&#10;In general, this question relates to socio-scientific issues such as hunger, poverty, and climate disasters."></span></p>
+                        <select id="q14" name="risk_contribute" required="required">
+                            <option disabled selected value> -- select an option -- </option>
+                            {% for answer in answers_text%}
+                            {% if answer.contentpresent is not None %}
+                                <option value="{{answer.num}}">{{ answer.contentpresent}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        </select>
+                </div>
+                <div class="col-50">
+                    <input type="submit" value="Submit"/>
+                </div>
+            </div>
+
+        {% endif %}
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Hide q8 container element initially
+        $('#q8-container').hide();
+        $('#q8').prop('required', false);
+
+        // Show/hide q8 container element based on value of q7
+        $('#q7').on('input', function() {
+            if ($(this).val() === '1') {
+                $('#q8-container').show();
+                $('#q8').prop('required', true);
+            } else {
+                $('#q8-container').hide();
+                $('#q8').prop('required', false);
+            }
+        });
+        $('#q111').on('change', function() {
+            if($(this).is(':checked')) {
+                $('input[name="sources"]').not(this).prop('checked', false);
+            }
+        });
+
+    });
+    </script>
+
+
+
+{% endblock %}
