@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('username', models.CharField(blank=True, max_length=150, null=True, unique=True)),
-                ('profile_avatar', models.CharField(db_column='profileAvatar', default='images/profile_imgs/DefaultProfilePhoto.png', max_length=200)),
+                ('profile_avatar', models.CharField(db_column='profileAvatar', default='media/profile_imgs/DefaultProfilePhoto.png', max_length=200)),
                 ('first_name', models.CharField(blank=True, max_length=150, null=True)),
                 ('last_name', models.CharField(blank=True, max_length=150, null=True)),
                 ('email', models.CharField(blank=True, db_column='email', max_length=254, null=True)),
